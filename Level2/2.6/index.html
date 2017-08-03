@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html ng-app="gemStore">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+
+<body class="container" ng-controller="StoreController as store">
+  <header>
+    <h1 class="text-center">Flatlander Crafted Gems</h1>
+    <h2 class="text-center">– an Angular store –</h2>
+  </header>
+  <!--  Products Container  -->
+  <div class="list-group" ng-repeat="product in store.products">
+    <!--  Product Container  -->
+    <div class="list-group-item" ng-hide="product.soldOut">
+      <h3>
+         {{product.name}}
+         <em class="pull-right">{{product.price | currency}}</em>
+       </h3>
+      <button ng-show="product.canPurchase">Add to Cart</button>
+
+      <!-- Image Gallery  -->
+      <div class='gallery' ng-show="product.images.length" ng-controller="GalleryController as gallery">
+        <img ng-src="{{product.images[gallery.current]}}" />
+        <ul class="list-inline thumbs">
+          <li class="thumbnail" ng-repeat="image in product.images">
+            <img ng-src="{{image}}" />
+          </li>
+        </ul>
+      </div>
+
+      <section class="tab" ng-controller="TabController as panel">
+        <ul class="nav nav-pills">
+          <li ng-class="{ active:panel.isSet(1) }">
+            <a href ng-click="panel.setTab(1)">Description</a></li>
+          <li ng-class="{ active:panel.isSet(2) }">
+            <a href ng-click="panel.setTab(2)">Specs</a></li>
+          <li ng-class="{ active:panel.isSet(3) }">
+            <a href ng-click="panel.setTab(3)">Reviews</a></li>
+        </ul>
+        <div ng-show="panel.isSet(1)">
+          <h4>Description</h4>
+          <blockquote>{{product.description}}</blockquote>
+        </div>
+        <div ng-show="panel.isSet(2)">
+          <h4>Specs</h4>
+          <blockquote>Shine: {{product.shine}}</blockquote>
+        </div>
+        <div ng-show="panel.isSet(3)">
+          <h4>Reviews</h4>
+          <blockquote></blockquote>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <!-- AngularJS -->
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <!-- My script -->
+  <script type="text/javascript" src="app.js"></script>
+
+</body>
+
+</html>
